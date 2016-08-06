@@ -11,7 +11,6 @@ import React, { Component, PropTypes } from 'react';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import s from './App.css';
 import Header from '../Header';
-import Feedback from '../Feedback';
 import Footer from '../Footer';
 import { Provider } from 'react-redux';
 
@@ -63,11 +62,16 @@ class App extends Component {
     const store = this.props.context.store;
     return (
       <Provider store={store}>
-        <div>
-          <Header />
-          {this.props.children}
-          <Feedback />
-          <Footer />
+        <div className={s.wrapper}>
+          <div className={s.header}>
+            <Header />
+          </div>
+          <div className={s.main}>
+            {this.props.children}
+          </div>
+          <div className={s.footer}>
+            <Footer />
+          </div>
         </div>
       </Provider>
     );

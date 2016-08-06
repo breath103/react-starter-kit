@@ -1,5 +1,8 @@
 import React, { PropTypes } from 'react';
 import { analytics } from '../config';
+import htmlStyleFile from './Html.css';
+
+const htmlStyle = htmlStyleFile._getCss(); // eslint-disable-line
 
 function Html({ title, description, style, script, children, state }) {
   return (
@@ -11,10 +14,15 @@ function Html({ title, description, style, script, children, state }) {
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+        <style id="global_css" dangerouslySetInnerHTML={{ __html: htmlStyle }} />
         <style id="css" dangerouslySetInnerHTML={{ __html: style }} />
       </head>
       <body>
-        <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
+        <div
+          id="app"
+          className={htmlStyleFile.app}
+          dangerouslySetInnerHTML={{ __html: children }}
+        />
         {script && (
           <script
             id="source"

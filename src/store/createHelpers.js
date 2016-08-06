@@ -39,13 +39,30 @@ function createFetchKnowingCookie({ cookie }) {
   return fetch;
 }
 
+import socketIO from 'socket.io-client';
+import { port } from '../config';
+
+function createSocket() {
+  if (process.env.BROWSER) {
+    // Browser Sync can massup the port (3000 -> 3001) so...
+    const parser = document.createElement('a');
+    parser.href = window.location.toString();
+    parser.port = port;
+    const socket = socketIO(parser.href); // eslint-disable-line
+    return socket;
+  }
+  return null;
+}
+
 export default function createHelpers(config) {
   const fetchKnowingCookie = createFetchKnowingCookie(config);
   const graphqlRequest = createGraphqlRequest(fetchKnowingCookie);
+  const socket = createSocket();
 
   return {
     fetch: fetchKnowingCookie,
     graphqlRequest,
     history: config.history,
+    socket,
   };
 }
